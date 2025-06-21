@@ -8,17 +8,17 @@ const mockItems = [
   {
     title: "Lost iPhone 13",
     description: "Last seen near cafeteria on June 20.",
-    image: "https://via.placeholder.com/300x200?text=iPhone",
+    image: "//cdn.arstechnica.net/wp-content/uploads/2021/09/iPhone-13-Pro-Max-back-980x537.jpeg",
   },
   {
     title: "Found Backpack",
     description: "Black Adidas backpack found in library.",
-    image: "https://via.placeholder.com/300x200?text=Backpack",
+    image: "https://www.80scasualclassics.co.uk/images/adidas-originals-classic-backpack-black-p10295-63907_zoom.jpg",
   },
   {
     title: "Lost Wallet",
     description: "Brown leather wallet lost at main gate.",
-    image: "https://via.placeholder.com/300x200?text=Wallet",
+    image: "https://thumbs.dreamstime.com/b/lost-leather-wallet-money-street-ground-159234461.jpg",
   },
 ]
 
@@ -56,13 +56,16 @@ export default function Home() {
           />
         </div>
         <h2 className="text-3xl font-bold mb-6 text-center">🔍 Recent Listings</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {filtered.length > 0 ? (
-            filtered.map((item, idx) => <ItemCard key={idx} {...item} />)
-          ) : (
-            <p className="text-center text-gray-600 dark:text-gray-300 col-span-full">No items found.</p>
-          )}
-        </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+  {filtered.length > 0 ? (
+    filtered.map((item, idx) => <ItemCard key={idx} {...item} />)
+  ) : (
+    <p className="text-center text-gray-600 dark:text-gray-300 col-span-full">No items found.</p>
+  )}
+</div>
+
+       
+
       </section>
     </div>
   )
