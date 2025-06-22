@@ -1,5 +1,3 @@
-// src/pages/Home.jsx
-// 4. Home.jsx (in src/pages/Home.jsx)
 import Navbar from "../components/Navbar"
 import ItemCard from "../components/ItemCard"
 import { useState } from "react"
