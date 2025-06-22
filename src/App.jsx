@@ -1,29 +1,18 @@
-// App.jsx
-import { Routes, Route } from "react-router-dom";
-import Navbar from './components/Navbar';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import { Toaster } from "sonner";
+import { Routes, Route } from "react-router-dom"
+import Home from "./pages/Home.jsx"
+import SignUp from "./pages/SignUp.jsx"
 
-export default function App() {
+function RootApp() {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={
-          <div className="p-6">
-            <h1 className="text-3xl font-bold text-center text-gray-700">
-              Welcome to Lost & Found
-            </h1>
-            <p className="text-center mt-4">This is the homepage content.</p>
-          </div>
-        } />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </>
-  );
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/report-lost" element={<div>Lost Form</div>} />
+      <Route path="/report-found" element={<div>Found Form</div>} />
+      <Route path="/browse" element={<div>Browse Items</div>} />
+      <Route path="/login" element={<div>Login</div>} />
+      <Route path="/signup" element={<SignUp />} />
+    </Routes>
+  )
 }
-// export default function App() {
-//   return <h1 style={{ textAlign: 'center', marginTop: '100px' }}>Hello React</h1>;
-// }
+
+export default RootApp
