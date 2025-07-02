@@ -5,6 +5,7 @@ import Login  from "./pages/Login.jsx"
 import Layout from "./Layout.jsx"
 import LostReportForm from "./pages/LostReportForm.jsx"
 import FoundReportForm from "./pages/FoundReportForm.jsx"
+import AboutUs from "./pages/AboutUs.jsx"
 
 function RootApp() {
   return (
@@ -16,6 +17,7 @@ function RootApp() {
       <Route path="/browse" element={<div>Browse Items</div>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/about" element={<AboutUs/>}/>
       </Route>
     </Routes>
   )

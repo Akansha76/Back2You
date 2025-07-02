@@ -25,6 +25,10 @@ export default function Navbar() {
           </span>
         </Link>
 
+        <Link to="/about" className="flex items-center gap-2 text-xl font-bold tracking-wide text-white">
+        
+        </Link>
+
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-10">
           {navLinks.map(({ label, to }) => (
