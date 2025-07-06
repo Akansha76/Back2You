@@ -6,6 +6,7 @@ import Layout from "./Layout.jsx"
 import LostReportForm from "./pages/LostReportForm.jsx"
 import FoundReportForm from "./pages/FoundReportForm.jsx"
 import AboutUs from "./pages/AboutUs.jsx"
+import FoundItems from "./pages/FoundItems.jsx"
 
 function RootApp() {
   return (
@@ -18,6 +19,7 @@ function RootApp() {
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/about" element={<AboutUs/>}/>
+      <Route path="/found-items" element={<FoundItems/>}/>
       </Route>
     </Routes>
   )
