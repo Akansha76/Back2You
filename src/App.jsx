@@ -7,6 +7,7 @@ import LostReportForm from "./pages/LostReportForm.jsx"
 import FoundReportForm from "./pages/FoundReportForm.jsx"
 import AboutUs from "./pages/AboutUs.jsx"
 import FoundItems from "./pages/FoundItems.jsx"
+import LostItems from "./pages/LostItems.jsx"
 
 function RootApp() {
   return (
@@ -20,6 +21,7 @@ function RootApp() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/about" element={<AboutUs/>}/>
       <Route path="/found-items" element={<FoundItems/>}/>
+      <Route path="/lost-items" element={<LostItems/>}/>
       </Route>
     </Routes>
   )

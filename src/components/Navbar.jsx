@@ -25,11 +25,14 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <Link to="/found-items" className="flex items-center gap-2 text-xl font-bold tracking-wide text-white">
+        <Link to="/found-items" className="flex items-center gap-0 text-xl font-bold tracking-wide text-white">
+        
+        </Link>
+        <Link to="/lost-items" className="flex items-center gap-0 text-xl font-bold tracking-wide text-white">
         
         </Link>
 
-        <Link to="/about" className="flex items-center gap-2 text-xl font-bold tracking-wide text-white">
+        <Link to="/about" className="flex items-center gap-0 text-xl font-bold tracking-wide text-white">
         
         </Link>
 
