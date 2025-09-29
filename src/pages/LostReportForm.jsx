@@ -11,10 +11,13 @@ export default function LostReportForm() {
     secondaryColor: "",
     location: "",
     description: "",
+    mobileNumber: "",
+    email: "",
   });
 
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,23 +31,72 @@ export default function LostReportForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Log formData and image file for testing
-    console.log("Lost Property Data:", formData);
-    console.log("Uploaded Image File:", image);
+    try {
+      const form = new FormData();
+      form.append("name", formData.itemName);
+      form.append("date", formData.dateLost);
+      form.append("time", formData.timeLost);
+      form.append("category", formData.category);
+      form.append("brand", formData.brand);
+      form.append("primaryColor", formData.primaryColor);
+      form.append("secondaryColor", formData.secondaryColor);
+      form.append("location", formData.location);
+      form.append("description", formData.description);
+      form.append("mobileNumber", formData.mobileNumber); 
+      form.append("email", formData.email);
+      form.append("status", "lost");
 
-    alert("Lost property report submitted!");
-    // TODO: Upload formData and image to your server or cloud storage
+      if (image) form.append("image", image);
+
+      const res = await fetch("http://localhost:5000/api/items", {
+        method: "POST",
+        body: form,
+      });
+
+      if (!res.ok) throw new Error("Failed to submit lost report");
+
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+
+      // Reset form
+      setFormData({
+        itemName: "",
+        dateLost: "",
+        timeLost: "",
+        category: "",
+        brand: "",
+        primaryColor: "",
+        secondaryColor: "",
+        location: "",
+        description: "",
+        mobileNumber: "",
+        email: "",
+      });
+      setImage(null);
+      setPreviewUrl("");
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting lost report");
+    }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-8">
-      <h2 className="text-3xl font-bold text-center text-red-600 mb-4">Submit Lost Property</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-8 relative">
+      <h2 className="text-3xl font-bold text-center text-red-600 mb-4">
+        Submit Lost Property
+      </h2>
       <p className="text-center text-gray-600 mb-6">
         Please provide the following details to help us locate your lost item.
       </p>
+
+      {showToast && (
+        <div className="fixed top-5 right-5 bg-green-600 text-white px-6 py-3 rounded shadow-lg z-50 animate-slide-in">
+          Lost property report submitted successfully!
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <input
@@ -134,7 +186,27 @@ export default function LostReportForm() {
           rows="4"
         />
 
-        {/* Image upload */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <input
+            type="tel"
+            name="mobileNumber" 
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            placeholder="Mobile Number"
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email Address"
+            required
+            className="w-full border p-2 rounded"
+          />
+        </div>
+
         <div>
           <label className="block font-medium mb-1">Upload Image (optional)</label>
           <input

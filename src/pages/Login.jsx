@@ -13,17 +13,29 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
-    const fakeIsValidUser =
-      formData.email === "demo@example.com" && formData.password === "password";
+    try {
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (!fakeIsValidUser) {
-      alert("Invalid credentials");
-      return;
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      // Save user info if needed, e.g., localStorage
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      alert("Login successful!");
+      navigate("/"); // redirect to homepage
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Server error. Try again.");
     }
-
-    alert("Login successful!");
-    navigate("/"); 
   };
 
   return (

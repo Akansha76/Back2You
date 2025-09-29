@@ -34,9 +34,9 @@ export default function Navbar() {
           <LogIn className="w-4 h-4" />
           LOGIN
         </Link>
-        <button className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition">
+        {/* <button className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition">
           <Settings className="w-5 h-5" />
-        </button>
+        </button> */}
       </div>
     </nav>
   );

@@ -11,6 +11,7 @@
     "twinit": "tailwindcss init -p"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "axios": "^1.10.0",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.516.0",

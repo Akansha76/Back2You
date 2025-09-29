@@ -8,13 +8,15 @@ export default function FoundReportForm() {
     category: "",
     brand: "",
     primaryColor: "",
-    secondaryColor: "",
     location: "",
     description: "",
+    mobileNumber: "",
+    email: "",
   });
 
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,34 +30,95 @@ export default function FoundReportForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // ✅ Extra Validation
+    if (!formData.mobileNumber.trim()) {
+      alert("Mobile Number is required!");
+      return;
+    }
+    if (!formData.email.trim()) {
+      alert("Email is required!");
+      return;
+    }
     if (!image) {
       alert("Please upload an image. It is required for Found Reports.");
       return;
     }
 
-    // You can now send `formData` and `image` to your backend here
-    console.log("Found Report Submitted:", formData);
-    console.log("Image:", image);
-    alert("Found report submitted!");
+    try {
+      const form = new FormData();
+      form.append("name", formData.itemName);
+      form.append("date", formData.dateFound);
+      form.append("time", formData.timeFound);
+      form.append("category", formData.category);
+      form.append("brand", formData.brand);
+      form.append("primaryColor", formData.primaryColor);
+      form.append("location", formData.location);
+      form.append("description", formData.description);
+      form.append("mobileNumber", formData.mobileNumber);
+      form.append("email", formData.email);
+      form.append("status", "found");
+      form.append("image", image);
+
+      const res = await fetch("http://localhost:5000/api/items", {
+        method: "POST",
+        body: form,
+      });
+
+      if (!res.ok) throw new Error("Failed to submit found report");
+
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+
+      // Reset form
+      setFormData({
+        itemName: "",
+        dateFound: "",
+        timeFound: "",
+        category: "",
+        brand: "",
+        primaryColor: "",
+        location: "",
+        description: "",
+        mobileNumber: "",
+        email: "",
+      });
+      setImage(null);
+      setPreviewUrl("");
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting found report");
+    }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-8">
-      <h2 className="text-3xl font-bold text-center text-green-600 mb-4">Submit Found Property</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md mt-8 relative">
+      <h2 className="text-3xl font-bold text-center text-green-600 mb-4">
+        Submit Found Property
+      </h2>
       <p className="text-center text-gray-600 mb-6">
-        Please provide the following details about the item you found.
+        Please provide details about the item you found to help the owner recover it.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
+      {showToast && (
+        <div className="fixed top-5 right-5 bg-green-600 text-white px-6 py-3 rounded shadow-lg z-50 animate-slide-in">
+          Found property report submitted successfully!
+        </div>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4"
+        encType="multipart/form-data"
+      >
         <input
           type="text"
           name="itemName"
           value={formData.itemName}
           onChange={handleChange}
-          placeholder="What was Found"
+          placeholder="Item Name"
           required
           className="w-full border p-2 rounded"
         />
@@ -99,24 +162,14 @@ export default function FoundReportForm() {
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <input
-            type="text"
-            name="primaryColor"
-            value={formData.primaryColor}
-            onChange={handleChange}
-            placeholder="Primary Color"
-            className="w-full border p-2 rounded"
-          />
-          <input
-            type="text"
-            name="secondaryColor"
-            value={formData.secondaryColor}
-            onChange={handleChange}
-            placeholder="Secondary Color"
-            className="w-full border p-2 rounded"
-          />
-        </div>
+        <input
+          type="text"
+          name="primaryColor"
+          value={formData.primaryColor}
+          onChange={handleChange}
+          placeholder="Primary Color"
+          className="w-full border p-2 rounded"
+        />
 
         <input
           type="text"
@@ -137,9 +190,31 @@ export default function FoundReportForm() {
           rows="4"
         />
 
-        {/* Compulsory Image Upload */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <input
+            type="tel"
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            placeholder="Mobile Number"
+            required
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email Address"
+            required
+            className="w-full border p-2 rounded"
+          />
+        </div>
+
         <div>
-          <label className="block font-medium mb-1 text-red-600">Upload Image <span className="text-sm text-gray-500">(required)</span></label>
+          <label className="block font-medium mb-1 text-red-600">
+            Upload Image <span className="text-sm text-gray-500">(required)</span>
+          </label>
           <input
             type="file"
             accept="image/*"
